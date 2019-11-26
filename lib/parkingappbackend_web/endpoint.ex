@@ -41,11 +41,7 @@ defmodule ParkingappbackendWeb.Endpoint do
     key: "_parkingappbackend_key",
     signing_salt: "yeCDF3Nl"
 
-<<<<<<< HEAD
   plug CORSPlug, origin: ["http://localhost:8081", "http://localhost:8080"]
-=======
-  plug CORSPlug, origin: ["http://localhost:8081" , "http://localhost:8080"]
->>>>>>> f5018206d10f78fb326a34e93e4193e3aa473dd5
 
   plug ParkingappbackendWeb.Router
 end
