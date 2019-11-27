@@ -120,7 +120,7 @@ I want to access the admin page with all admin functionalities
     And I am redirected to admin page
     And I can view and update the parking spaces information
     When I press "Save Changes"
-    Then I should receive a confimration message and the parking information is Updated
+    Then I should receive a confimration message and the parking information is updated
 
     
 
