@@ -26,7 +26,11 @@ defmodule ParkingappbackendWeb.Router do
     get "/my_account", UserController, :show
     post "/search", SearchController, :search_parkings
     get "/search/index", SearchController, :index
-
+    get "/bookings/all", BookingController, :index_all
+    get "/bookings", BookingController, :index
+    post "/bookings/new", BookingController, :create
+    post "/bookings/cancel", BookingController, :cancel
+    post "/bookings/update", BookingController, :update
   end
 
 end

@@ -22,6 +22,8 @@
                         'Elixir.Parkingappbackend.Space.Category',
                         'Elixir.Parkingappbackend.Space.Parking',
                         'Elixir.ParkingappbackendWeb',
+                        'Elixir.ParkingappbackendWeb.BookingController',
+                        'Elixir.ParkingappbackendWeb.BookingView',
                         'Elixir.ParkingappbackendWeb.ChangesetView',
                         'Elixir.ParkingappbackendWeb.ChannelCase',
                         'Elixir.ParkingappbackendWeb.ConnCase',

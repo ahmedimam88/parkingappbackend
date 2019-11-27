@@ -7,6 +7,7 @@ defmodule Parkingappbackend.Space do
   alias Parkingappbackend.Repo
 
   alias Parkingappbackend.Space.Category
+  alias Parkingappbackend.Space.Parking
 
   @doc """
   Returns the list of categories.
@@ -102,7 +103,6 @@ defmodule Parkingappbackend.Space do
     Category.changeset(category, %{})
   end
 
-  alias Parkingappbackend.Space.Parking
 
   @doc """
   Returns the list of parkings.

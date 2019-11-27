@@ -94,3 +94,5 @@ Parkingappbackend.Space.create_parking(%{name: "Lounakeskus 7" , latitude: 58.35
 Parkingappbackend.Space.create_parking(%{name: "Lounakeskus 8" , latitude: 58.359411, longitude: 26.677862, status: "ACTIVE", category_id: 5})
 Parkingappbackend.Space.create_parking(%{name: "Lounakeskus 9" , latitude: 58.359035, longitude: 26.677011, status: "ACTIVE", category_id: 5})
 Parkingappbackend.Space.create_parking(%{name: "Lounakeskus 10" , latitude: 58.359142, longitude: 26.676677, status: "ACTIVE", category_id: 5})
+
+# Parkingappbackend.Sales.create_booking(%{start_time: "123", end_time: "123" , status: "OPEN", user_id: 1 , parking_id: 1, calc_criteria: 1})

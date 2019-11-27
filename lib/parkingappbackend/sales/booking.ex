@@ -6,7 +6,7 @@ defmodule Parkingappbackend.Sales.Booking do
     field :start_time, :string
     field :end_time, :string
     field :status, :string, default: "OPEN"
-    belongs_to :category, Parkingappbackend.Space.Category
+    field :calc_criteria, :integer
     belongs_to :user, Parkingappbackend.Auth.User
     belongs_to :parking, Parkingappbackend.Space.Parking
 
@@ -15,7 +15,13 @@ defmodule Parkingappbackend.Sales.Booking do
 
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:start_time, :end_time, :status])
-    |> validate_required([:start_time, :start_time])
+    |> cast(params, [:start_time, :end_time, :status, :parking_id, :calc_criteria, :user_id])
+    |> validate_required([:start_time, :end_time])
+  end
+
+  def cancel_changeset(struct, params \\ %{}) do
+    struct
+    |> cast(params, [:status])
+    |> validate_required([:status])
   end
 end
