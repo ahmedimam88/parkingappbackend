@@ -10,6 +10,10 @@ defmodule ParkingappbackendWeb.UserView do
     render_one(user, UserView, "user.json")
   end
 
+  def render("inspect.json", %{user_params: user_params}) do
+    %{data: user_params}
+  end
+
   def render("user.json", %{user: user}) do
     %{id: user.id,
       username: user.username,

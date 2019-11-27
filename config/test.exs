@@ -3,7 +3,7 @@ use Mix.Config
 # Configure your database
 config :parkingappbackend, Parkingappbackend.Repo,
   username: "postgres",
-  password: "12345678",
+  password: "A1234567890",
   database: "parkingappbackend_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox

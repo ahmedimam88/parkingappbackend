@@ -69,7 +69,13 @@ defmodule Parkingappbackend.Auth do
   """
   def update_user(%User{} = user, attrs) do
     user
-    |> User.changeset(attrs)
+    |> User.update_changeset(attrs)
+    |> Repo.update()
+  end
+
+  def update_user_password(%User{} = user, attrs) do
+    user
+    |> User.password_changeset(attrs)
     |> Repo.update()
   end
 

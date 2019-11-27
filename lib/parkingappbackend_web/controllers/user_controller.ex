@@ -1,6 +1,7 @@
 defmodule ParkingappbackendWeb.UserController do
   use ParkingappbackendWeb, :controller
 
+
   alias Parkingappbackend.Auth
   alias Parkingappbackend.Auth.User
   alias Parkingappbackend.Guardian
@@ -48,15 +49,20 @@ defmodule ParkingappbackendWeb.UserController do
   end
 
   def show(conn, _) do
-    #user = Auth.get_user!(id)
     user = Auth.get_user!(Guardian.Plug.current_resource(conn).id)
     render(conn, "show.json", user: user)
   end
 
-  def update(conn, %{"id" => id, "user" => user_params}) do
+  def update(conn, %{"id" => id, "email" => email, "address" => address , "age" => age, "is_active" => is_active}) do
     user = Auth.get_user!(id)
+    with {:ok, %User{} = user} <- Auth.update_user(user, %{email: email, address: address, age: age, is_active: is_active}) do
+      render(conn, "show.json", user: user)
+    end
+  end
 
-    with {:ok, %User{} = user} <- Auth.update_user(user, user_params) do
+  def update(conn, %{"id" => id, "password" => password}) do
+    user = Auth.get_user!(id)
+    with {:ok, %User{} = user} <- Auth.update_user_password(user, %{password: password}) do
       render(conn, "show.json", user: user)
     end
   end

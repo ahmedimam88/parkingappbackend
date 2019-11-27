@@ -22,6 +22,7 @@ defmodule ParkingappbackendWeb.Router do
     pipe_through [:api, :jwt_authenticated]
 
     get "/users", UserController, :index
+    post "/users/update" , UserController, :update
     get "/my_account", UserController, :show
     post "/search", SearchController, :search_parkings
     get "/search/index", SearchController, :index
