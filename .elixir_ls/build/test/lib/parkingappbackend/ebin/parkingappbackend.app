@@ -16,6 +16,8 @@
                         'Elixir.Parkingappbackend.Guardian.AuthPipeline',
                         'Elixir.Parkingappbackend.Guardian.Plug',
                         'Elixir.Parkingappbackend.Repo',
+                        'Elixir.Parkingappbackend.Sales',
+                        'Elixir.Parkingappbackend.Sales.Booking',
                         'Elixir.Parkingappbackend.Space',
                         'Elixir.Parkingappbackend.Space.Category',
                         'Elixir.Parkingappbackend.Space.Parking',
