@@ -131,7 +131,7 @@ defmodule Parkingappbackend.Auth do
       def token_sign_in(username, password) do
         case authenticate_user(username, password) do
           {:ok, user} ->
-            Guardian.encode_and_sign(user)
+            Guardian.encode_and_sign(user, %{}, ttl: {4, :hours}, token_type: "refresh")
           _ ->
             {:error, :unauthorized}
         end
