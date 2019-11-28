@@ -21,4 +21,10 @@ defmodule Parkingappbackend.Space.Parking do
     |> validate_required([:name, :latitude, :longitude, :status, :category_id])
     |> unique_constraint(:name)
   end
+
+  def parking_status_changeset(parking, attrs) do
+    parking
+    |> cast(attrs, [:status])
+    |> validate_required([:status])
+  end
 end

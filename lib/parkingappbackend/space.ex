@@ -194,6 +194,12 @@ defmodule Parkingappbackend.Space do
     |> Repo.update()
   end
 
+  def update_parking_status(%Parking{} = parking, attrs) do
+    parking
+    |> Parking.parking_status_changeset(attrs)
+    |> Repo.update()
+  end
+
   @doc """
   Deletes a Parking.
 
