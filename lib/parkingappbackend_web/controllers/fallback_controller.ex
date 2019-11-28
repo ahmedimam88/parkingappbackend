@@ -20,6 +20,15 @@ defmodule ParkingappbackendWeb.FallbackController do
     |> render(:"405")
   end
 
+  def call(conn, {:error, :Data_invalid}) do
+    conn
+    |> put_status(:not_found)
+    |> put_view(ParkingappbackendWeb.ErrorView)
+    |> json(%{error: "Incorrect Data Provided"})
+  end
+
+
+
   def call(conn, {:error, :unauthorized}) do
     conn
     |> put_status(:unauthorized)

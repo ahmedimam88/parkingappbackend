@@ -8,6 +8,9 @@ defmodule ParkingappbackendWeb.BookingController do
   alias Parkingappbackend.Sales.Booking
   alias Parkingappbackend.Sales
 
+  action_fallback ParkingappbackendWeb.FallbackController
+
+
   def index_all(conn, _params) do
     bookings = Sales.list_bookings()
     render(conn, "index.json", bookings: bookings)
@@ -27,11 +30,11 @@ defmodule ParkingappbackendWeb.BookingController do
     case length(open_booking_count) == 0 do
 
     true ->
-    with {:ok, %Booking{} = booking} <- Sales.create_booking(%{start_time: start_time, end_time: end_time , status: "OPEN", user_id: user.id , parking_id: parking_id, calc_criteria: calc_criteria}) do
-      parking = Parkingappbackend.Space.get_parking!(parking_id)
-      Parkingappbackend.Space.update_parking_status(parking,%{status: "BUSY"})
-
-      render(conn, "show.json", booking: booking)
+    case Sales.create_booking(%{start_time: start_time, end_time: end_time , status: "OPEN", user_id: user.id , parking_id: parking_id, calc_criteria: calc_criteria}) do
+      {:ok, %Booking{} = booking} -> parking = Parkingappbackend.Space.get_parking!(parking_id)
+                                    Parkingappbackend.Space.update_parking_status(parking,%{status: "BUSY"})
+                                    render(conn, "show.json", booking: booking)
+    _ ->  {:error, :Data_invalid}
     end
 
     _ -> message = "You can only have one open booking"

@@ -12,6 +12,11 @@ defmodule Parkingappbackend.Sales do
     Repo.all(query)
   end
 
+  def list_bookings_userid(user_id) do
+    query = from b in Booking, where: b.user_id == ^user_id
+    Repo.all(query)
+  end
+
   def get_booking!(id), do: Repo.get!(Booking, id)
 
   def create_booking(attrs \\ %{}) do
