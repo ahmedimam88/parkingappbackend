@@ -95,6 +95,7 @@ defmodule Parkingappbackend.Auth do
     Repo.delete(user)
   end
 
+
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking user changes.
 

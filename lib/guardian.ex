@@ -19,4 +19,5 @@ defmodule Parkingappbackend.Guardian do
   def resource_from_claims(_claims) do
     {:error, :reason_for_error}
   end
+
 end
