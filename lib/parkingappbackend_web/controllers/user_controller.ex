@@ -14,9 +14,10 @@ defmodule ParkingappbackendWeb.UserController do
   end
 
   def sign_in(conn, %{"username" => username, "password" => password}) do
+    user = Auth.get_user_by_username(username)
     case Parkingappbackend.Auth.token_sign_in(username, password) do
       {:ok, token, _claims} ->
-        conn |> render("jwt.json", jwt: token)
+        conn |> render("jwt.json", jwt: token, user: user)
       _ ->
         {:error, :unauthorized}
     end
@@ -40,7 +41,7 @@ defmodule ParkingappbackendWeb.UserController do
           {:ok, token, _claims} <- Guardian.encode_and_sign(user) do
             conn
             |> put_status(:created)
-            |> render("jwt.json", jwt: token)
+            |> render("jwt.json", jwt: token, user: user)
       # conn
       # |> put_status(:created)
       # |> put_resp_header("location", Routes.user_path(conn, :show, user))

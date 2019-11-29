@@ -32,8 +32,17 @@ defmodule ParkingappbackendWeb.UserView do
         }
       end
 
-      def render("jwt.json", %{jwt: jwt}) do
-        %{jwt: jwt}
+      def render("jwt.json", %{jwt: jwt , user: user}) do
+        %{jwt: jwt,
+          user: %{
+            user_id: user.id,
+            username: user.username,
+            email: user.email,
+            address: user.address,
+            age: user.age,
+            isactive: user.is_active
+          }
+          }
       end
 
 end
