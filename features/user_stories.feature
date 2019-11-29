@@ -58,15 +58,17 @@ I want to submit the specific destination address, start time & end time of park
     Scenario: Enter the destination address, start time & end time of parking
         Given the following destination address, start time & end time
             | destination     | start time | end time |
-            | Kaubamaja, Tartu| 12:00      | 13:300   |
+            | Raatuse 22, Tartu| 12:00      | 13:300   |
     And I sign in
-    And I start new parking
-    And I enter the destionation address, start time & end time
+    And I navigate to the parking menu
+    And I open the Search Parking page
+    And I enter the location address, start time & end time
     And I press "Search"
     And I should see a Map showing the parking locations nearby the destination address
     When I choose the desired parking slot 
-    Then I should see the details of this particular parking slot such as Category, TOTAL Price per hour and TOTAL price per real-time
-    And I press confirm
+    Then I should see the details of this particular parking slot such as Parking Slot, Zone, Hourly rate, Estimated Price per hour and per real-time
+    When I press confirm
+    Then I should reveive a confimration message "Booking is created"
 
 Feature: User Story5: View billing options
 As a customer
@@ -83,13 +85,15 @@ I want to view the billing options
     And I enter the destionation address, start time and end time
     And I press "Search"
     And I should see a Map showing the parking locations nearby the destionation address
-    And I submit an availability request
+    And I submit an availability request 
     And I see the availability of the parking spot
-    And I request the cost of parking
     And I see the area name, and the cost of hourly & real-time
     And I choose the billing option
     When I submit the parking request
-    Then I see my parking, area name and the chosen billing option
+    Then I receive a confirmation message indicating that My Booking is created
+    And I am redirected to My Booking History
+    And I see my parking, start time, end time, area name and the chosen billing option, status
+    And I have the option to Extend or Cancel my booking
 
 Feature: User Story6: Upate User Account
 As a customer
