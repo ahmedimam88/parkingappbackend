@@ -9,6 +9,8 @@ defmodule Parkingappbackend.Repo.Migrations.CreateUsers do
       add :address, :string
       add :age, :integer
       add :is_active, :boolean, default: false, null: false
+      add :full_name, :string
+      add :usertype, :string
 
       timestamps()
     end

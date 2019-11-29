@@ -11,10 +11,12 @@
 # and so on) as they will fail if something goes wrong.
 
 
-Parkingappbackend.Auth.create_user(%{username: "ahmed" , address: "Tartu, Estonia", email: "ahmed@email.com", password: "parool"})
-Parkingappbackend.Auth.create_user(%{username: "mirlind" , address: "Tartu, Estonia", email: "mirlind@email.com", password: "parool"})
-Parkingappbackend.Auth.create_user(%{username: "mubasher" , address: "Tartu, Estonia", email: "mubasher@email.com", password: "parool"})
-Parkingappbackend.Auth.create_user(%{username: "zubair" , address: "Tartu, Estonia", email: "zubair@email.com", password: "parool"})
+Parkingappbackend.Auth.create_user(%{username: "ahmed" , address: "Tartu, Estonia", email: "ahmed@email.com", password: "parool", full_name: "Ahmed Samir", usertype: "ADMIN"})
+Parkingappbackend.Auth.create_user(%{username: "mirlind" , address: "Tartu, Estonia", email: "mirlind@email.com", password: "parool", full_name: "Mirlind Mirlind", usertype: "ADMIN"})
+Parkingappbackend.Auth.create_user(%{username: "mubasher" , address: "Tartu, Estonia", email: "mubasher@email.com", password: "parool", full_name: "Mubasher Mubasher", usertype: "ADMIN"})
+Parkingappbackend.Auth.create_user(%{username: "zubair" , address: "Tartu, Estonia", email: "zubair@email.com", password: "parool", full_name: "Mohammed Zubair", usertype: "ADMIN"})
+Parkingappbackend.Auth.create_user(%{username: "user1" , address: "Tartu, Estonia", email: "user1@email.com", password: "parool", full_name: "user1 user1", usertype: "CUSTOMER"})
+Parkingappbackend.Auth.create_user(%{username: "user2" , address: "Tartu, Estonia", email: "user2@email.com", password: "parool", full_name: "user1 user2", usertype: "CUSTOMER"})
 
 Parkingappbackend.Space.create_category(%{name: "Free Parking Space" , ratehour: 0, raterealtime: 0, freeminutes: 0,  status: "ACTIVE"})
 Parkingappbackend.Space.create_category(%{name: "Free One Hours" , ratehour: 0, raterealtime: 0, freeminutes: 60,  status: "ACTIVE"})

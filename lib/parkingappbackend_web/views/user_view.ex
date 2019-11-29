@@ -20,7 +20,9 @@ defmodule ParkingappbackendWeb.UserView do
       email: user.email,
       address: user.address,
       is_active: user.is_active,
-      age: user.age}
+      age: user.age,
+      full_name: user.full_name,
+      usertype: user.usertype}
   end
 
   def render("sign_in.json", %{user: user}) do
@@ -40,7 +42,9 @@ defmodule ParkingappbackendWeb.UserView do
             email: user.email,
             address: user.address,
             age: user.age,
-            isactive: user.is_active
+            isactive: user.is_active,
+            full_name: user.full_name,
+            usertype: user.usertype
           }
           }
       end

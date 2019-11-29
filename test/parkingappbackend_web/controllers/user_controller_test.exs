@@ -10,7 +10,9 @@ defmodule ParkingappbackendWeb.UserControllerTest do
     email: "ahmeeee@email.com",
     is_active: true,
     password: "some123",
-    username: "some1111111"
+    username: "some1111111",
+    full_name: "some full name",
+    usertype: "some usertype"
   }
   @create_attrs %{
     address: "some address",
@@ -18,16 +20,20 @@ defmodule ParkingappbackendWeb.UserControllerTest do
     email: "ahm2@email.com",
     is_active: "true",
     password: "some123",
-    username: "some12"
+    username: "some12",
+    full_name: "some full name 12",
+    usertype: "some usertype"
   }
   @update_attrs %{
     id: 1,
     address: "some updated address",
     age: 43,
     email: "some updated email",
-    is_active: false
+    is_active: false,
+    full_name: "some full name 12",
+    usertype: "some usertype"
     }
-  @invalid_attrs %{id: 1, address: nil, age: nil, email: nil, is_active: nil}
+  @invalid_attrs %{id: 1, address: nil, age: nil, email: nil, is_active: nil, full_name: nil, usertype: nil}
 
   setup %{conn: conn} do
     {:ok, %User{} = user} = Auth.create_user(@create_attrs)
@@ -45,7 +51,7 @@ defmodule ParkingappbackendWeb.UserControllerTest do
   describe "index" do
     test "lists all users", %{conn: conn} do
       conn = get(conn, Routes.user_path(conn, :index))
-      assert length(json_response(conn, 200)) == 5
+      assert length(json_response(conn, 200)) == 7
     end
   end
 
@@ -58,7 +64,9 @@ defmodule ParkingappbackendWeb.UserControllerTest do
                "age" => 42,
                "email" => "ahm2@email.com",
                "is_active" => true,
-               "username" => "some12"
+               "username" => "some12",
+               "full_name" => "some full name 12",
+               "usertype" => "some usertype"
              } = json_response(conn, 200)
       end
   end
