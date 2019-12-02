@@ -12,7 +12,7 @@ defmodule ParkingappbackendWeb.UserControllerTest do
     password: "some123",
     username: "some1111111",
     full_name: "some full name",
-    usertype: "some usertype"
+    usertype: "CUSTOMER"
   }
   @create_attrs %{
     address: "some address",
@@ -22,7 +22,7 @@ defmodule ParkingappbackendWeb.UserControllerTest do
     password: "some123",
     username: "some12",
     full_name: "some full name 12",
-    usertype: "some usertype"
+    usertype: "CUSTOMER"
   }
   @update_attrs %{
     id: 1,
@@ -31,7 +31,7 @@ defmodule ParkingappbackendWeb.UserControllerTest do
     email: "some updated email",
     is_active: false,
     full_name: "some full name 12",
-    usertype: "some usertype"
+    usertype: "CUSTOMER"
     }
   @invalid_attrs %{id: 1, address: nil, age: nil, email: nil, is_active: nil, full_name: nil, usertype: nil}
 
@@ -66,7 +66,7 @@ defmodule ParkingappbackendWeb.UserControllerTest do
                "is_active" => true,
                "username" => "some12",
                "full_name" => "some full name 12",
-               "usertype" => "some usertype"
+               "usertype" => "CUSTOMER"
              } = json_response(conn, 200)
       end
   end

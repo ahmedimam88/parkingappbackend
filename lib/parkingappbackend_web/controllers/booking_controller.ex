@@ -75,6 +75,8 @@ defmodule ParkingappbackendWeb.BookingController do
 
     _ ->
         with {:ok, %Booking{} = booking} <- Sales.cancel_booking(booking, %{status: "CANCELLED"}) do
+          parking = Parkingappbackend.Space.get_parking!(booking.parking_id)
+          Parkingappbackend.Space.update_parking_status(parking,%{status: "ACTIVE"})
           render(conn, "show.json", booking: booking)
         end
   end
