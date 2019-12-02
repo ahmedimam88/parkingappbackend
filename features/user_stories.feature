@@ -102,33 +102,39 @@ I want to navigate to my Account
 
     Scenario: Update User Account
         Given the following options
-            | username | password	   | email        | dob        | address | fname  | lname | isactive |         
-            | ahmed    | parool      | ahmed@email.com| 10/05/1988| Raatuse| Ahmed  | Samir | N        |
+            | username | password	   | email        | dob        | address | fullname | usertype | isactive |         
+            | ahmed    | parool      | ahmed@email.com| 10/05/1988| Raatuse| Ahmed Samir| customer | N        |
     And I sign in
     And I have the option to navigate to my account
     And I can see and update my personal information
     When I press "Save"
-    Then I receive a confimration messages and my account status changes to Updated Account
-    And I am redirected to the home page 
+    Then I receive a confimration message and my account status changes to Updated Account
+    And I am redirected to the dashboard
 
-Feature: User Story7: Update Parking Spaces Data
-As an admin
-So that I can update the parking spaces and their information
-I want to access the admin page with all admin functionalities
+Feature: User Story7: Manually check remaining parking time
+As an customer
+So that I can see and extend the parking time of my booking 
+I want to check the remaining parking time
 
-    Scenario: Update Parking Spaces Information
+    Scenario: Manually check the remaining parking time
         Given the following options
-            | destination     | latitude | longitude | status |
-            | Kaubamaja, Tartu| 58.378491 | 26.727099| Active |
-    And I sign in as admin
-    And I am redirected to admin page
-    And I can view and update the parking spaces information
-    When I press "Save Changes"
-    Then I should receive a confimration message and the parking information is updated
-
-    
-
-
+            | destination     | start time | end time |
+            | Raatuse 22, Tartu| 12:00      | 13:300   |
+    And I sign in
+    And I start a new parking
+    And I enter the destination, start time & end time
+    And I should see a Map showing the parking locations nearby the destionation address
+    And I choose a desired parking spot
+    And I choose the HOURLY payment method
+    And I navigate to my booking
+    And I manually check the remaining time
+    And I edit the endtime 
+    When I press "Extend"
+    Then my parking status gets updated and parking time gets extended
+    When there are 10 minutes of parking reamining 
+    Then the system sends me a notification to remind me of my booking time
+    When there are only 2 minutes left of my parking
+    Then I cannot extend the parking anymore and the same parking spot stauts is changed to available
 
 
 
