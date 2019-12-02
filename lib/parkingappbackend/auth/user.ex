@@ -12,7 +12,7 @@ defmodule Parkingappbackend.Auth.User do
     field :password_hash, :string
     field :password, :string, virtual: true
     field :full_name, :string
-    field :usertype, :string, default: "driver"
+    field :usertype, :string, default: "CUSTOMER"
 
     timestamps()
   end
@@ -22,6 +22,7 @@ defmodule Parkingappbackend.Auth.User do
     user
     |> cast(attrs, [:username, :email, :address, :age, :is_active, :password, :full_name, :usertype])
     |> validate_required([:username, :email, :password])
+    |> validate_inclusion(:usertype, ~w(ADMIN CUSTOMER))
     |> unique_constraint(:username)
     |> unique_constraint(:email)
     |> put_password_hash()
@@ -38,6 +39,7 @@ defmodule Parkingappbackend.Auth.User do
     user
     |> cast(attrs, [:username, :email, :address, :age, :is_active, :full_name, :usertype])
     |> validate_required([:username, :email])
+    |> validate_inclusion(:usertype, ~w(ADMIN CUSTOMER))
     |> unique_constraint(:username)
     |> unique_constraint(:email)
   end
