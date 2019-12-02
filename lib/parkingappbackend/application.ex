@@ -4,6 +4,7 @@ defmodule Parkingappbackend.Application do
   @moduledoc false
 
   use Application
+  use Supervisor
 
   def start(_type, _args) do
     # List all child processes to be supervised
@@ -11,7 +12,8 @@ defmodule Parkingappbackend.Application do
       # Start the Ecto repository
       Parkingappbackend.Repo,
       # Start the endpoint when the application starts
-      ParkingappbackendWeb.Endpoint
+      ParkingappbackendWeb.Endpoint,
+      worker(Parkingappbackend.Periodically, [])
       # Starts a worker by calling: Parkingappbackend.Worker.start_link(arg)
       # {Parkingappbackend.Worker, arg},
     ]
