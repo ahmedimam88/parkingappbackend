@@ -12,6 +12,12 @@ defmodule Parkingappbackend.Sales do
     Repo.all(query)
   end
 
+  def list_bookings_active() do
+    query = from b in Booking, where: b.status == "OPEN", select: %{"status": b.status, "id": b.id, "start_time": b.start_time, "end_time": b.end_time, "calc_criteria": b.calc_criteria , "parking_id": b.parking_id, "user_id": b.user_id}
+    Repo.all(query)
+  end
+
+
   def list_bookings_userid(user_id) do
     query = from b in Booking, where: b.user_id == ^user_id
     Repo.all(query)

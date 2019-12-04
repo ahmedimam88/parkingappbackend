@@ -7,6 +7,7 @@ defmodule ParkingappbackendWeb.BookingController do
   alias Parkingappbackend.Guardian
   alias Parkingappbackend.Sales.Booking
   alias Parkingappbackend.Sales
+  use Timex
 
   action_fallback ParkingappbackendWeb.FallbackController
 
@@ -19,6 +20,18 @@ defmodule ParkingappbackendWeb.BookingController do
   def index(conn, _params) do
     user = Auth.get_user!(Guardian.Plug.current_resource(conn).id)
     bookings = Sales.list_bookings(user)
+    render(conn, "index.json", bookings: bookings)
+  end
+
+  def index_10min(conn, _params) do
+    bookings = Sales.list_bookings_active()
+    bookings = Enum.filter( bookings, fn(%{"end_time": end_time}) -> Timex.diff(Timex.parse!(end_time , "{RFC3339}") ,Timex.now , :minutes) <= 10 end)
+    render(conn, "index.json", bookings: bookings)
+  end
+
+  def index_2min(conn, _params) do
+    bookings = Sales.list_bookings_active()
+    bookings = Enum.filter( bookings, fn(%{"end_time": end_time}) -> Timex.diff(Timex.parse!(end_time , "{RFC3339}") ,Timex.now , :minutes) <= 2 end)
     render(conn, "index.json", bookings: bookings)
   end
 

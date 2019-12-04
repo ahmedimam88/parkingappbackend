@@ -48,7 +48,8 @@ defmodule Parkingappbackend.MixProject do
       {:httpoison, "~> 1.6"},
       {:poison, "~> 3.1"},
       {:white_bread, "~> 4.5", only: [:test]},
-      {:hound, "~> 1.0"}
+      {:hound, "~> 1.0"},
+      {:timex, "~> 3.5"}
       #{:bcrypt_elixir, "~> 0.12"}
       #{:comeonin, "~> 4.0"},
     ]
