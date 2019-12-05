@@ -136,7 +136,62 @@ I want to check the remaining parking time
     When there are only 2 minutes left of my parking
     Then I cannot extend the parking anymore and the same parking spot stauts is changed to available
 
+Feature: User Story8: Billing/Invoicing using the hourly payment scheme
+As a customer
+So that I can pay for my parking by choosing the hourly payment type
+I want to choose between paying before parking or when extending my parking
 
+	Scenario: Pay using options for hourly scheme billing
+		Given the following options
+		| destination |
+		| Raatuse 22, Tartu |
+		| hourly |
+	And I sign in
+	And I start new parking by entering the destination, start time and end time
+	And I choose the Hourly Payment Method
+	And I have the option to pay before parking or when extending my parking
+	When I choose to pay before parking
+	Then I am redirected to payment page
+	And I complete the payment and start the parking
+	When I choose to pay when extending the parking time
+	Then I create the booking
+	And I go to My_Booking Page
+	And I see the option to Extend my parking
+	When I click on the "Extend" button
+	Then I am redirected to payment page
+	And I complete the payment when extending the parking period
+
+
+Feature: User Story9: Billing/Invoicing using the Real-Time Payment
+As a customer
+So that I can pay for my parking using the real-time payment type
+I want to to choose between paying at the end of the parking or at the end of each month
+
+	Scenario: Pay using options for real-time payment
+		Given the following options
+		| destination |
+		| Raatuse 22, Tartu |
+		| real-time |
+	And I sign in
+	And I start a new parking by entering the destination, start time and end time
+	And I choose the real-time payment method
+	And I have the option to pay at the end of the parking stay or at the end of each month
+	When I choose to pay at the end of the parking stay
+	Then I create the boking
+	And I want to end the parking stay
+	And I go to My Bookings page
+	And I press the "Cancel" button
+	And I am redirected to Payment page where I complete the real-time payment
+	When I choose to pay at the end of each month
+	Then I should configure this option myself 
+	And I can make new parkings during each months
+	And I go to My Payment (My Parking)
+	And I see all my postponed payments
+	When I click "Pay All"
+	Then total of my postponed payments is substracted from my account
+
+
+		  
 
 
 
