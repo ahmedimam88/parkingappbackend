@@ -4,6 +4,7 @@ defmodule ParkingappbackendWeb.BookingControllerTest do
   alias Parkingappbackend.Sales
   alias Parkingappbackend.Auth
   alias Parkingappbackend.Auth.User
+  use Timex
 
   @create_login_user %{
     address: "some address",
@@ -16,13 +17,37 @@ defmodule ParkingappbackendWeb.BookingControllerTest do
 
   @create_booking_valid %{
     start_time: "some time",
-    end_time: "some time",
+    end_time: String.slice(elem(Timex.format(Timex.shift(Timex.now("GMT-2"), minutes: 30),"{RFC3339}"),1), 0..18) <> "+02:00",
     parking_id: 2,
     calc_criteria: 1,
     user_id: 1
     }
 
-    @update_booking_valid %{ start_time: "New time", end_time: "New time", parking_id: 2, calc_criteria: 1 }
+    @create_booking1 %{
+        start_time: "2019-12-04T21:13:47.704Z",
+        end_time: String.slice(elem(Timex.format(Timex.shift(Timex.now("GMT-2"), minutes: 1),"{RFC3339}"),1), 0..18) <> "+02:00" ,
+        status: "OPEN",
+        user_id: 1 ,
+        parking_id: 1,
+        calc_criteria: 1}
+
+    @create_booking2 %{
+        start_time: "2019-12-04T21:13:47.704Z",
+        end_time: String.slice(elem(Timex.format(Timex.shift(Timex.now("GMT-2"), minutes: 5),"{RFC3339}"),1), 0..18) <> "+02:00" ,
+        status: "OPEN",
+        user_id: 2 ,
+        parking_id: 2,
+        calc_criteria: 1}
+
+    @create_booking3 %{
+        start_time: "2019-12-04T21:13:47.704Z",
+        end_time: String.slice(elem(Timex.format(Timex.shift(Timex.now("GMT-2"), minutes: 15),"{RFC3339}"),1), 0..18) <> "+02:00" ,
+        status: "OPEN",
+        user_id: 3 ,
+        parking_id: 2,
+        calc_criteria: 1}
+
+    @update_booking_valid %{ start_time: "New time", end_time: String.slice(elem(Timex.format(Timex.shift(Timex.now("GMT-2"), minutes: 15),"{RFC3339}"),1), 0..18) <> "+02:00", parking_id: 2, calc_criteria: 1 }
 
     @update_booking_invalid %{ start_time: nil, end_time: nil, parking_id: nil, calc_criteria: nil }
 
@@ -36,6 +61,9 @@ defmodule ParkingappbackendWeb.BookingControllerTest do
   setup %{conn: conn} do
     {:ok, %User{} = user} = Auth.create_user(@create_login_user)
     {:ok, _} = Sales.create_booking(@create_booking_valid)
+    {:ok, _} = Sales.create_booking(@create_booking1)
+    {:ok, _} = Sales.create_booking(@create_booking2)
+    {:ok, _} = Sales.create_booking(@create_booking3)
 
         {:ok, jwt, _claims} = Parkingappbackend.Guardian.encode_and_sign(user, %{}, ttl: {4, :hours}, token_type: "refresh")
     conn =
@@ -53,6 +81,16 @@ defmodule ParkingappbackendWeb.BookingControllerTest do
 
     test "lists all bookings", %{conn: conn} do
       conn = get(conn, Routes.booking_path(conn, :index_all))
+      assert length(json_response(conn, 200)) == 4
+    end
+
+    test "List bookings when booking less than 10", %{conn: conn} do
+      conn = get(conn, Routes.booking_path(conn, :index_10min))
+      assert length(json_response(conn, 200)) == 2
+    end
+
+    test "List bookings when booking less than 2", %{conn: conn} do
+      conn = get(conn, Routes.booking_path(conn, :index_2min))
       assert length(json_response(conn, 200)) == 1
     end
 
@@ -62,7 +100,7 @@ describe "create" do
   test "Create new booking with valid data", %{conn: conn} do
     conn = post(conn, Routes.booking_path(conn, :create), @create_booking_valid)
 
-    assert %{ "parking_id" => 2 , "start_time" => "some time" , "end_time" => "some time", "status" => "OPEN"} = json_response(conn, 200)
+    assert %{ "parking_id" => 2 , "start_time" => "some time" , "end_time" => _, "status" => "OPEN"} = json_response(conn, 200)
   end
 
   test "Create new booking with invalid data", %{conn: conn} do
@@ -110,6 +148,5 @@ end
              } = json_response(conn, 200)
   end
 end
-
 
 end
