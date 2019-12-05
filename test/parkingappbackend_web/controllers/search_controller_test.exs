@@ -3,6 +3,7 @@ defmodule ParkingappbackendWeb.SearchControllerTest do
 
   alias Parkingappbackend.Auth
   alias Parkingappbackend.Auth.User
+  use Timex
 
   @create_attrs %{
     address: "some address",
@@ -12,6 +13,10 @@ defmodule ParkingappbackendWeb.SearchControllerTest do
     password: "some123",
     username: "some1111111"
   }
+
+  @create_booking1 %{start_time: "2019-12-04T21:13:47.704Z", end_time: "2019-12-05T01:13:00+02:00" , status: "OPEN", user_id: 1 , parking_id: 1, calc_criteria: 1}
+  @create_booking2 %{start_time: "2019-12-04T21:13:47.704Z", end_time: "2020-12-05T01:13:00+02:00" , status: "OPEN", user_id: 2 , parking_id: 2, calc_criteria: 1}
+
 
   setup %{conn: conn} do
     {:ok, %User{} = user} = Auth.create_user(@create_attrs)
@@ -34,14 +39,26 @@ defmodule ParkingappbackendWeb.SearchControllerTest do
   describe "search" do
     test "searh for a parking", %{conn: conn} do
       conn = post(conn, Routes.search_path(conn, :search_parkings), %{destination: "Raatuse 22, Tartu", starttime: "10:30", endtime: "12:00"})
-      # assert %{
-      #       "destination" => "some destination",
-      #        "starttime"   => "some start time",
-      #        "endtime"     => "some end time"
-      #         } = json_response(conn, 200)
       assert length(json_response(conn, 200)) == 7
-      #assert length(json_response(conn, 200)) != 71
 
+    end
+
+    test "search parking is updated to free when booking date is finished", %{conn: conn} do
+      post(conn, Routes.booking_path(conn, :create), @create_booking1)
+      parking1 = Parkingappbackend.Space.get_parking!(1)
+      assert parking1.status == "BUSY"
+      post(conn, Routes.search_path(conn, :search_parkings), %{destination: "Raatuse 22, Tartu", starttime: "10:30", endtime: "12:00"})
+      parking1 = Parkingappbackend.Space.get_parking!(1)
+      assert parking1.status == "ACTIVE"
+    end
+
+    test "search parking is not updated to free when booking date is still in future", %{conn: conn} do
+      post(conn, Routes.booking_path(conn, :create), @create_booking2)
+      parking2 = Parkingappbackend.Space.get_parking!(2)
+      assert parking2.status == "BUSY"
+      post(conn, Routes.search_path(conn, :search_parkings), %{destination: "Raatuse 22, Tartu", starttime: "10:30", endtime: "12:00"})
+      parking2 = Parkingappbackend.Space.get_parking!(2)
+      assert parking2.status == "BUSY"
     end
 
     test "search for a parking for a different location", %{conn: conn} do

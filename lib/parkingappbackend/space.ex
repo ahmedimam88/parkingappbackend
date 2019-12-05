@@ -124,11 +124,22 @@ defmodule Parkingappbackend.Space do
     Repo.all(query)
   end
 
+  def release_parkings([h|t]) do
+    parking = get_parking!(h.parking_id)
+    update_parking_status(parking, %{status: "ACTIVE"})
+    release_parkings(t)
+  end
+
+  def release_parkings([]) do
+
+  end
+
   def list_parkingsnear(lat , long) do
     query = from p in Parking,
           join: c in Category, on: c.id == p.category_id,
           where: fragment("? BETWEEN ? AND ?", p.latitude, ^lat-0.000797, ^lat+0.000797),
           where: fragment("? BETWEEN ? AND ?", p.longitude, ^long-0.001092, ^long+0.001092),
+          where: p.status == "ACTIVE",
           select: {p.id , p.name, p.latitude , p.longitude, p.status , c.name, c.ratehour , c.raterealtime, c.freeminutes}
     Repo.all(query)
   end
