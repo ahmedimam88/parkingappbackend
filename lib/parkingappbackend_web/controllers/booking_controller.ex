@@ -23,6 +23,7 @@ defmodule ParkingappbackendWeb.BookingController do
     render(conn, "index.json", bookings: bookings)
   end
 
+
   def index_10min(conn, _params) do
     bookings = Sales.list_bookings_active()
     bookings = Enum.filter( bookings, fn(%{"end_time": end_time}) -> Timex.diff(Timex.parse!(end_time , "{RFC3339}") ,Timex.now , :minutes) <= 10 end)
