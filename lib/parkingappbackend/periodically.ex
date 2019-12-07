@@ -1,6 +1,9 @@
 defmodule Parkingappbackend.Periodically do
   use GenServer
 
+  import Ecto.Query, only: [from: 2]
+  alias Parkingappbackend.Sales
+
 
   def start_link do
     GenServer.start_link(__MODULE__, %{})
@@ -15,12 +18,15 @@ defmodule Parkingappbackend.Periodically do
     ###############################
     # Do the work you desire here #
     ###############################
+    bookings = Sales.list_bookings_active()
+    bookings = Enum.filter( bookings, fn(%{"end_time": end_time}) -> Timex.diff(Timex.parse!(end_time , "{RFC3339}") ,Timex.now , :minutes) <= 10 end)
+    Parkingappbackend.Notification.fire_notification(bookings)
 
     schedule_work() # Reschedule once more
     {:noreply, state}
   end
 
   defp schedule_work() do
-    Process.send_after(self(), :work, 2 * 60 * 60 * 1000) # In 2 hours
+    Process.send_after(self(), :work, 60 * 1000) # In 2 hours
   end
 end

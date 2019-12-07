@@ -15,6 +15,9 @@ defmodule ParkingappbackendWeb.UserSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
+  channel "links", ParkingappbackendWeb.LinksChannel
+  channel "user:*", ParkingappbackendWeb.LinksChannel
+
   def connect(_params, socket, _connect_info) do
     {:ok, socket}
   end
@@ -31,3 +34,4 @@ defmodule ParkingappbackendWeb.UserSocket do
   # Returning `nil` makes this socket anonymous.
   def id(_socket), do: nil
 end
+

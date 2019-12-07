@@ -15,7 +15,7 @@ defmodule ParkingappbackendWeb.SearchControllerTest do
   }
 
   @create_booking1 %{start_time: "2019-12-04T21:13:47.704Z", end_time: "2019-12-05T01:13:00+02:00" , status: "OPEN", user_id: 1 , parking_id: 1, calc_criteria: 1}
-  @create_booking2 %{start_time: "2019-12-04T21:13:47.704Z", end_time: "2020-12-05T01:13:00+02:00" , status: "OPEN", user_id: 2 , parking_id: 2, calc_criteria: 1}
+  @create_booking2 %{start_time: "2019-12-04T21:13:47.704Z", end_time: "2019-12-07T01:13:00+02:00" , status: "OPEN", user_id: 2 , parking_id: 2, calc_criteria: 1}
 
 
   setup %{conn: conn} do
