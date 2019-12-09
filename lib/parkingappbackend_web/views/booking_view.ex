@@ -18,7 +18,8 @@ defmodule ParkingappbackendWeb.BookingView do
       user_id: booking.user_id,
       parking_id: booking.parking_id,
       calc_criteria: booking.calc_criteria,
-      status: booking.status}
+      status: booking.status,
+      parking_name: booking.parking_name}
   end
 
 end

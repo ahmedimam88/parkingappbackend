@@ -142,9 +142,12 @@ end
     assert %{
              "calc_criteria" => 1,
              "end_time" => "New time",
-             "parking_id" => 2,
+             "parking_id" => 1,
              "start_time" => "New time",
-             "status" => "OPEN"
+             "status" => "OPEN",
+             "id" => _,
+             "user_id" => 1,
+             "parking_name" => "Raatuse 22 back 1",
              } = json_response(conn, 200)
   end
 end

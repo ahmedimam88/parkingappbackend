@@ -2,18 +2,30 @@ defmodule Parkingappbackend.Sales do
   import Ecto.Query, warn: false
   alias Parkingappbackend.Repo
   alias Parkingappbackend.Sales.Booking
+  alias Parkingappbackend.Space.Parking
 
   def list_bookings do
-    Repo.all(Booking)
+    query = from b in Booking,
+    join: p in Parking,
+    on: b.parking_id == p.id,
+    select: %{status: b.status, id: b.id, start_time: b.start_time, end_time: b.end_time, calc_criteria: b.calc_criteria , parking_id: b.parking_id, user_id: b.user_id, parking_name: p.name}
+    Repo.all(query)
   end
 
   def list_bookings(user) do
-    query = from b in Booking, where: b.user_id == ^user.id
+    query = from b in Booking,
+    join: p in Parking,
+    on: b.parking_id == p.id,
+    where: b.user_id == ^user.id ,
+    select: %{status: b.status, id: b.id, start_time: b.start_time, end_time: b.end_time, calc_criteria: b.calc_criteria , parking_id: b.parking_id, user_id: b.user_id, parking_name: p.name}
     Repo.all(query)
   end
 
   def list_bookings_active() do
-    query = from b in Booking, where: b.status == "OPEN", select: %{"status": b.status, "id": b.id, "start_time": b.start_time, "end_time": b.end_time, "calc_criteria": b.calc_criteria , "parking_id": b.parking_id, "user_id": b.user_id}
+    query = from b in Booking,
+    join: p in Parking,
+    on: b.parking_id == p.id,
+    select: %{status: b.status, id: b.id, start_time: b.start_time, end_time: b.end_time, calc_criteria: b.calc_criteria , parking_id: b.parking_id, user_id: b.user_id, parking_name: p.name}
     Repo.all(query)
   end
 

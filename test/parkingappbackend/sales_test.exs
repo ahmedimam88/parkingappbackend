@@ -21,7 +21,7 @@ defmodule Parkingappbackend.SalesTest do
 
   test "list_bookings/0 returns all categories" do
     booking = booking_fixture()
-    assert Sales.list_bookings() == [booking]
+    assert hd(Sales.list_bookings()).id == booking.id
   end
 
   test "get_booking!/1 returns the booking with given id" do

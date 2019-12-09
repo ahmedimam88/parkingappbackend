@@ -26,13 +26,13 @@ defmodule ParkingappbackendWeb.BookingController do
 
   def index_10min(conn, _params) do
     bookings = Sales.list_bookings_active()
-    bookings = Enum.filter( bookings, fn(%{"end_time": end_time}) -> Timex.diff(Timex.parse!(end_time , "{RFC3339}") ,Timex.now , :minutes) <= 10 end)
+    bookings = Enum.filter( bookings, fn(%{end_time: end_time}) -> Timex.diff(Timex.parse!(end_time , "{RFC3339}") ,Timex.now , :minutes) <= 10 end)
     render(conn, "index.json", bookings: bookings)
   end
 
   def index_2min(conn, _params) do
     bookings = Sales.list_bookings_active()
-    bookings = Enum.filter( bookings, fn(%{"end_time": end_time}) -> Timex.diff(Timex.parse!(end_time , "{RFC3339}") ,Timex.now , :minutes) <= 2 end)
+    bookings = Enum.filter( bookings, fn(%{end_time: end_time}) -> Timex.diff(Timex.parse!(end_time , "{RFC3339}") ,Timex.now , :minutes) <= 2 end)
     render(conn, "index.json", bookings: bookings)
   end
 
@@ -47,6 +47,7 @@ defmodule ParkingappbackendWeb.BookingController do
     case Sales.create_booking(%{start_time: start_time, end_time: end_time , status: "OPEN", user_id: user.id , parking_id: parking_id, calc_criteria: calc_criteria}) do
       {:ok, %Booking{} = booking} -> parking = Parkingappbackend.Space.get_parking!(parking_id)
                                     Parkingappbackend.Space.update_parking_status(parking,%{status: "BUSY"})
+                                    booking = Map.put(booking, :parking_name, parking.name)
                                     render(conn, "show.json", booking: booking)
     _ ->  {:error, :Data_invalid}
     end
@@ -65,6 +66,8 @@ defmodule ParkingappbackendWeb.BookingController do
     case booking.user_id == user.id do
       true ->
         with {:ok, %Booking{} = booking} <- Sales.update_booking(booking, %{start_time: start_time, end_time: end_time, calc_criteria: calc_criteria}) do
+          parking = Parkingappbackend.Space.get_parking!(booking.parking_id)
+          booking = Map.put(booking, :parking_name, parking.name)
           render(conn, "show.json", booking: booking)
         end
       _ -> message = "You are not authorized to update this booking"
@@ -91,6 +94,7 @@ defmodule ParkingappbackendWeb.BookingController do
         with {:ok, %Booking{} = booking} <- Sales.cancel_booking(booking, %{status: "CANCELLED"}) do
           parking = Parkingappbackend.Space.get_parking!(booking.parking_id)
           Parkingappbackend.Space.update_parking_status(parking,%{status: "ACTIVE"})
+          booking = Map.put(booking, :parking_name, parking.name)
           render(conn, "show.json", booking: booking)
         end
   end
