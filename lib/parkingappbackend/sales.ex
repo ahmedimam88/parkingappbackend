@@ -47,4 +47,20 @@ defmodule Parkingappbackend.Sales do
     Repo.delete(booking)
   end
 
+  def update_booking_status(%Booking{} = booking, attrs) do
+    booking
+    |> Booking.cancel_changeset(attrs)
+    |> Repo.update()
+  end
+
+  def finish_bookings([h|t]) do
+    booking = get_booking!(h.id)
+    update_booking_status(booking, %{status: "COMPLETED"})
+    finish_bookings(t)
+  end
+
+  def finish_bookings([]) do
+
+  end
+
 end
