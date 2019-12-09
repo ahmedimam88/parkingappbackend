@@ -19,7 +19,8 @@ defmodule Parkingappbackend.Periodically do
     # Do the work you desire here #
     ###############################
     bookings = Sales.list_bookings_active()
-    bookings = Enum.filter( bookings, fn(%{"end_time": end_time}) -> Timex.diff(Timex.parse!(end_time , "{RFC3339}") ,Timex.now , :minutes) <= 10 end)
+    bookings = Enum.filter( bookings, fn(%{end_time: end_time}) -> Timex.diff(Timex.parse!(end_time , "{RFC3339}") ,Timex.now , :minutes) <= 10 end)
+    bookings = Enum.filter( bookings, fn(%{calc_criteria: calc_criteria}) -> calc_criteria == 1 end)
     Parkingappbackend.Notification.fire_notification(bookings)
 
     schedule_work() # Reschedule once more
