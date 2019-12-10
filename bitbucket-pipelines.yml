@@ -2,7 +2,7 @@ pipelines:
   branches:
     master:
     - step:
-        image: trenpixster/elixir:latest
+        image: elixir:1.5
         caches:
           - deps
           - build
@@ -12,7 +12,7 @@ pipelines:
           - mix deps.get
           - mix test
         services:
-        - postgres:latest
+        - db
  
 definitions:
   caches:
