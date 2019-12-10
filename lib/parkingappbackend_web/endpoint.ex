@@ -41,7 +41,7 @@ defmodule ParkingappbackendWeb.Endpoint do
     key: "_parkingappbackend_key",
     signing_salt: "yeCDF3Nl"
 
-  plug CORSPlug, origin: ["http://localhost:8081", "http://localhost:8080"]
+  plug CORSPlug, origin: ["http://localhost:8081", "http://localhost:8080", "https://agile-project-tartu-university.appspot.com"]
 
   plug ParkingappbackendWeb.Router
 end
