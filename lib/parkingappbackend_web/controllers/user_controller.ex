@@ -54,9 +54,9 @@ defmodule ParkingappbackendWeb.UserController do
     render(conn, "show.json", user: user)
   end
 
-  def update(conn, %{"id" => id, "email" => email, "address" => address , "age" => age, "is_active" => is_active, "full_name" => full_name , "usertype" => usertype}) do
+  def update(conn, %{"id" => id, "email" => email, "address" => address , "age" => age, "is_active" => is_active, "full_name" => full_name , "usertype" => usertype, "paymentpreference" => paymentpreference}) do
     user = Auth.get_user!(id)
-    with {:ok, %User{} = user} <- Auth.update_user(user, %{email: email, address: address, age: age, is_active: is_active, full_name: full_name , usertype: usertype}) do
+    with {:ok, %User{} = user} <- Auth.update_user(user, %{email: email, address: address, age: age, is_active: is_active, full_name: full_name , usertype: usertype, paymentpreference: paymentpreference}) do
       render(conn, "show.json", user: user)
     end
   end

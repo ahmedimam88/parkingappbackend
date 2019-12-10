@@ -22,7 +22,8 @@ defmodule ParkingappbackendWeb.UserView do
       is_active: user.is_active,
       age: user.age,
       full_name: user.full_name,
-      usertype: user.usertype}
+      usertype: user.usertype,
+      paymentpreference: user.paymentpreference}
   end
 
   def render("sign_in.json", %{user: user}) do
@@ -44,7 +45,8 @@ defmodule ParkingappbackendWeb.UserView do
             age: user.age,
             isactive: user.is_active,
             full_name: user.full_name,
-            usertype: user.usertype
+            usertype: user.usertype,
+            paymentpreference: user.paymentpreference
           }
           }
       end

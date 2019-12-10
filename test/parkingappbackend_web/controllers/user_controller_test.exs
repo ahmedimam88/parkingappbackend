@@ -12,7 +12,8 @@ defmodule ParkingappbackendWeb.UserControllerTest do
     password: "some123",
     username: "some1111111",
     full_name: "some full name",
-    usertype: "CUSTOMER"
+    usertype: "CUSTOMER",
+    paymentpreference: "EOP"
   }
   @create_attrs %{
     address: "some address",
@@ -22,7 +23,8 @@ defmodule ParkingappbackendWeb.UserControllerTest do
     password: "some123",
     username: "some12",
     full_name: "some full name 12",
-    usertype: "CUSTOMER"
+    usertype: "CUSTOMER",
+    paymentpreference: "EOP"
   }
   @update_attrs %{
     id: 1,
@@ -31,9 +33,10 @@ defmodule ParkingappbackendWeb.UserControllerTest do
     email: "some updated email",
     is_active: false,
     full_name: "some full name 12",
-    usertype: "CUSTOMER"
+    usertype: "CUSTOMER",
+    paymentpreference: "EOP"
     }
-  @invalid_attrs %{id: 1, address: nil, age: nil, email: nil, is_active: nil, full_name: nil, usertype: nil}
+  @invalid_attrs %{id: 1, address: nil, age: nil, email: nil, is_active: nil, full_name: nil, usertype: nil, paymentpreference: nil}
 
   setup %{conn: conn} do
     {:ok, %User{} = user} = Auth.create_user(@create_attrs)

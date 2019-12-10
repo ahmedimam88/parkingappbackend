@@ -13,6 +13,7 @@ defmodule Parkingappbackend.Auth.User do
     field :password, :string, virtual: true
     field :full_name, :string
     field :usertype, :string, default: "CUSTOMER"
+    field :paymentpreference, :string, default: "EOP"
 
     timestamps()
   end
@@ -20,7 +21,7 @@ defmodule Parkingappbackend.Auth.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:username, :email, :address, :age, :is_active, :password, :full_name, :usertype])
+    |> cast(attrs, [:username, :email, :address, :age, :is_active, :password, :full_name, :usertype, :paymentpreference])
     |> validate_required([:username, :email, :password])
     |> validate_inclusion(:usertype, ~w(ADMIN CUSTOMER))
     |> unique_constraint(:username)
@@ -37,7 +38,7 @@ defmodule Parkingappbackend.Auth.User do
 
   def update_changeset(user, attrs) do
     user
-    |> cast(attrs, [:username, :email, :address, :age, :is_active, :full_name, :usertype])
+    |> cast(attrs, [:username, :email, :address, :age, :is_active, :full_name, :usertype, :paymentpreference])
     |> validate_required([:username, :email])
     |> validate_inclusion(:usertype, ~w(ADMIN CUSTOMER))
     |> unique_constraint(:username)

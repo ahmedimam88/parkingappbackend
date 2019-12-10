@@ -139,16 +139,8 @@ end
       |> put_req_header("authorization", "Bearer #{jwt}")
 
     conn = post(conn, Routes.booking_path(conn, :update), %{ id: book.id , start_time: "New time", end_time: "New time", parking_id: 2, calc_criteria: 1 })
-    assert %{
-             "calc_criteria" => 1,
-             "end_time" => "New time",
-             "parking_id" => 1,
-             "start_time" => "New time",
-             "status" => "OPEN",
-             "id" => _,
-             "user_id" => 1,
-             "parking_name" => "Raatuse 22 back 1",
-             } = json_response(conn, 200)
+    assert json_response(conn, 200)["start_time"] == "New time"
+    assert json_response(conn, 200)["end_time"] == "New time"
   end
 end
 

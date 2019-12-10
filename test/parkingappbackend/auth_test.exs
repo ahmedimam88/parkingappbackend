@@ -6,9 +6,9 @@ defmodule Parkingappbackend.AuthTest do
   describe "users" do
     alias Parkingappbackend.Auth.User
 
-    @valid_attrs %{age: 42, address: "some address", email: "some email", is_active: true, username: "some username", password: "some password"}
-    @update_attrs %{age: 43, address: "some updated address", email: "some updated email", is_active: false, username: "some updated username", password: "some password"}
-    @invalid_attrs %{age: nil, address: nil, email: nil, is_active: nil, username: nil, password: nil}
+    @valid_attrs %{age: 42, address: "some address", email: "some email", is_active: true, username: "some username", password: "some password", paymentpreference: "some paymentpreference"}
+    @update_attrs %{age: 43, address: "some updated address", email: "some updated email", is_active: false, username: "some updated username", password: "some password", paymentpreference: "some paymentpreference"}
+    @invalid_attrs %{age: nil, address: nil, email: nil, is_active: nil, username: nil, password: nil, paymentpreference: nil}
 
     def user_fixture(attrs \\ %{}) do
       {:ok, user} =
