@@ -1,8 +1,7 @@
+image: bitwalker/alpine-elixir:1.5.1
 pipelines:
-  branches:
-    master:
+  default:
     - step:
-        image: elixir:1.5
         caches:
           - deps
           - build
@@ -13,7 +12,7 @@ pipelines:
           - mix test
         services:
         - db
- 
+
 definitions:
   caches:
     deps: deps
