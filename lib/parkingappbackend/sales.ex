@@ -25,6 +25,7 @@ defmodule Parkingappbackend.Sales do
     query = from b in Booking,
     join: p in Parking,
     on: b.parking_id == p.id,
+    where: b.status == "OPEN",
     select: %{status: b.status, id: b.id, start_time: b.start_time, end_time: b.end_time, calc_criteria: b.calc_criteria , parking_id: b.parking_id, user_id: b.user_id, parking_name: p.name}
     Repo.all(query)
   end
