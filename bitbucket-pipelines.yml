@@ -1,4 +1,4 @@
-image: erlang:22.2
+image: bitwalker/alpine-elixir:1.5.1
 pipelines:
   default:
     - step:
@@ -9,6 +9,7 @@ pipelines:
           - mix local.hex --force
           - mix local.rebar --force
           - mix deps.get
+          - mix deps.compile --all
           - mix test
         services:
         - db
