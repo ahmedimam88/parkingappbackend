@@ -21,3 +21,8 @@ config :pbkdf2_elixir, :log_rounds, 4
 # Add the following lines at the end of the file
 config :hound, driver: "chrome_driver"
 config :parkingappbackend, sql_sandbox: true
+
+config :bitbucket_pipelines_test, BitbucketPipelinesTest.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  pool: Ecto.Adapters.SQL.Sandbox,
+  url: "postgres://postgres:pipelines-test@localhost/test-db"
