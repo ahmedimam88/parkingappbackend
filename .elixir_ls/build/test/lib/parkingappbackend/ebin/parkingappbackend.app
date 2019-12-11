@@ -10,6 +10,8 @@
                         'Elixir.Parkingappbackend.Auth',
                         'Elixir.Parkingappbackend.Auth.User',
                         'Elixir.Parkingappbackend.AuthErrorHandler',
+                        'Elixir.Parkingappbackend.Billing',
+                        'Elixir.Parkingappbackend.Billing.Payment',
                         'Elixir.Parkingappbackend.DataCase',
                         'Elixir.Parkingappbackend.Geolocation',
                         'Elixir.Parkingappbackend.Guardian',

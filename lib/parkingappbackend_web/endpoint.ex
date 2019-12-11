@@ -4,6 +4,7 @@ defmodule ParkingappbackendWeb.Endpoint do
   socket "/socket", ParkingappbackendWeb.UserSocket,
     websocket: true,
     longpoll: false,
+    origins: ["https://agile-project-tartu-university.appspot.com"],
     check_origin: false
 
 
