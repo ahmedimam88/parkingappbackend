@@ -37,6 +37,8 @@
                         'Elixir.ParkingappbackendWeb.FallbackController',
                         'Elixir.ParkingappbackendWeb.Gettext',
                         'Elixir.ParkingappbackendWeb.LinksChannel',
+                        'Elixir.ParkingappbackendWeb.PaymentController',
+                        'Elixir.ParkingappbackendWeb.PaymentView',
                         'Elixir.ParkingappbackendWeb.Router',
                         'Elixir.ParkingappbackendWeb.Router.Helpers',
                         'Elixir.ParkingappbackendWeb.SearchController',

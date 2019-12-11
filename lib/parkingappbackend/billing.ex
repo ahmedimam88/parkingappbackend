@@ -12,7 +12,7 @@ defmodule Parkingappbackend.Billing do
     join: u in User,
     on: p.user_id == u.id,
     where: p.user_id == ^user.id ,
-    select: %{id: p.id, cardno: p.cardno, nameoncard: p.nameoncard, cvv: "***", amount: p.amount, status: p.status , booking_id: b.id, b_start_time: b.start_time, start_time: b.end_time}
+    select: %{id: p.id, cardno: p.cardno, nameoncard: p.nameoncard, cvv: "*", amount: p.amount, status: p.status , booking_id: b.id, start_time: b.start_time, end_time: b.end_time}
     Repo.all(query)
   end
 
@@ -23,7 +23,7 @@ defmodule Parkingappbackend.Billing do
     join: u in User,
     on: p.user_id == u.id,
     where: p.status == "COMPLETED" and p.user_id == ^user.id ,
-    select: %{id: p.id, cardno: p.cardno, nameoncard: p.nameoncard, cvv: "***", amount: p.amount, status: p.status , booking_id: b.id, b_start_time: b.start_time, b_endtime: b.end_time}
+    select: %{id: p.id, cardno: p.cardno, nameoncard: p.nameoncard, cvv: "*", amount: p.amount, status: p.status , booking_id: b.id, start_time: b.start_time, end_time: b.end_time}
     Repo.all(query)
   end
 
@@ -34,7 +34,7 @@ defmodule Parkingappbackend.Billing do
     join: u in User,
     on: p.user_id == u.id,
     where: p.status == "PENDING" and p.user_id == ^user.id ,
-    select: %{id: p.id, cardno: p.cardno, nameoncard: p.nameoncard, cvv: "***", amount: p.amount, status: p.status , booking_id: b.id, b_start_time: b.start_time, b_endtime: b.end_time}
+    select: %{id: p.id, cardno: p.cardno, nameoncard: p.nameoncard, cvv: "*", amount: p.amount, status: p.status , booking_id: b.id, start_time: b.start_time, end_time: b.end_time}
     Repo.all(query)
   end
 

@@ -3,17 +3,18 @@ Feature:User Story1: User Registration
   Such that I go to register
   I want to register a user
 
-  Scenario: Register a user with success
-    Given the following users available
-          | username | password	   | email        | dob        | address | fname  | lname | isactive | 
-          | fred     | parool      | fred@ut.ee   | 10/04/1988 | AAA     | Fred   | Fred  | N        |
-          | barney   | parool      | barney@ut.ee | 10/05/2000 | BBB     | Barney | Fred  | N        |
-          | ahmed    | parool      | ahmed@email.com| 10/05/1988| Raatuse| Ahmed  | Samir | N        |
-    And I want to create a user for Mohamed
-    And I open USERS' web page
-    And I enter the user information
-    When I submit the registration request
-    Then I should receive a confirmation message
+    Scenario: Register a user with success
+        Given I am on the sign_in page
+        When I press signup ?
+        Then I should be on the sign_up page
+        And I fill in fullname with "Octanty"
+        And I fill in username with "tanty"
+        And I fill in password with "parool"
+        And I fill in email with "tanty@gmail.com"
+        And I fill in age with "27"
+        And I fill in address with "Tartu"
+        When I press Register
+        Then I should see "h5" with "Username: tanty" confirmation message in the Dashboard
 
 Feature:User Story2: User Login
 As a customer
@@ -24,11 +25,10 @@ I want to sign in as a user
     Given I am on the sign_in page
     | username | password |	 
     | ahmed    | parool   | 
-  And I fill in "username" with "ahmed"
-  And I fill in "password" with "parool"
-  When I press "Login"
-  Then I should be on the users home page
-  And I should see "Login successful" confirmation message 
+    And I fill in username with "ahmed"
+    And I fill in password with "parool"
+    When I press Sign in
+    Then I should see "h5" with "Username: ahmed" confirmation message in the Dashboard 
 
 
 Feature: User Story3: View parking space availability

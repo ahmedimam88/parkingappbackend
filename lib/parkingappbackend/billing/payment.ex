@@ -19,6 +19,7 @@ defmodule Parkingappbackend.Billing.Payment do
   def changeset(payments, attrs) do
     payments
     |> cast(attrs, [:cardno, :nameoncard, :cvv, :expirydate, :amount, :status, :user_id, :booking_id])
+    |> validate_required([:amount, :status, :user_id, :booking_id])
     |> validate_inclusion(:status, ~w(PENDING COMPLETED))
   end
 
