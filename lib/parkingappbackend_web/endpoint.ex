@@ -3,7 +3,8 @@ defmodule ParkingappbackendWeb.Endpoint do
 
   socket "/socket", ParkingappbackendWeb.UserSocket,
     websocket: true,
-    longpoll: false
+    longpoll: false,
+    check_origin: false
 
 
   # Serve at "/" the static files from "priv/static" directory.
@@ -44,4 +45,6 @@ defmodule ParkingappbackendWeb.Endpoint do
   plug CORSPlug, origin: ["http://localhost:8081", "http://localhost:8080", "https://agile-project-tartu-university.appspot.com"]
 
   plug ParkingappbackendWeb.Router
+
+
 end
