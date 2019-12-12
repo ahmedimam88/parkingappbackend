@@ -214,6 +214,26 @@ defmodule ParkingappbackendWeb.PaymentControllerTest do
         assert json_response(conn, 200)["amount"] == 1000.0
       end
 
+
+      test "when payment status in real time only", %{conn: conn} do
+        user = Auth.get_user!(2)
+
+        {:ok, jwt, _claims} = Parkingappbackend.Guardian.encode_and_sign(user, %{}, ttl: {4, :hours}, token_type: "refresh")
+        conn =
+          conn
+          |> put_req_header("accept", "application/json")
+          |> put_req_header("authorization", "Bearer #{jwt}")
+
+        {:ok, %Booking{} = booking2} = Sales.create_booking(@create_booking_valid2)
+        payment_RT =  Map.put(@create_payment_pending, :user_id, 2)
+        payment_RT =  Map.put(payment_RT, :booking_id, booking2.id)
+        {:ok, _} = Billing.create_payment(payment_RT)
+        payment = Billing.list_payments(user) |> hd
+
+        conn = post(conn, Routes.payment_path(conn, :update_statusRT), %{ booking_id: payment.booking_id , status: "COMPLETED" })
+        assert json_response(conn, 200)["status"] == "COMPLETED"
+      end
+
       test "payment status is invalid" do
         user = Auth.get_user!(1)
         payment = Billing.list_payments(user) |> hd
