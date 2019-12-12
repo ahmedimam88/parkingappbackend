@@ -107,7 +107,11 @@ def end_booking(conn, %{"id" => id , "end_time" => end_time}) do
   case booking.user_id == user.id do
     true ->
   with {:ok, %Booking{} = booking} <- Sales.update_end_time(booking, %{end_time: end_time}) do
+        Parkingappbackend.Sales.finish_bookings([booking])
         parking = Parkingappbackend.Space.get_parking!(booking.parking_id)
+        Parkingappbackend.Space.update_parking_status(parking,%{status: "ACTIVE"})
+
+        booking = Sales.get_booking!(id)
         booking = Map.put(booking, :parking_name, parking.name)
         render(conn, "show.json", booking: booking)
    end

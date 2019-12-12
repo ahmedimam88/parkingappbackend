@@ -133,6 +133,7 @@ end
 
     conn = post(conn, Routes.booking_path(conn, :end_booking), %{id: book.id, end_time: "any End Time"})
     assert "any End Time" == json_response(conn, 200)["end_time"]
+    assert "COMPLETED" == json_response(conn, 200)["status"]
 
   end
 end
