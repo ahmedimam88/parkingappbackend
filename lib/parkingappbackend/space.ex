@@ -124,6 +124,13 @@ defmodule Parkingappbackend.Space do
     Repo.all(query)
   end
 
+  def get_parkingsCat(parking_id) do
+    query = from p in Parking,
+          join: c in Category, on: c.id == p.category_id,
+          where: p.id == ^parking_id,
+          select: {p.id , p.name, p.latitude , p.longitude, p.status , c.name, c.ratehour , c.raterealtime, c.freeminutes}
+    Repo.one(query)
+  end
   def release_parkings([h|t]) do
     parking = get_parking!(h.parking_id)
     update_parking_status(parking, %{status: "ACTIVE"})
