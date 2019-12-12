@@ -3,9 +3,7 @@ defmodule ParkingappbackendWeb.Endpoint do
 
   socket "/socket", ParkingappbackendWeb.UserSocket,
     websocket: true,
-    longpoll: false,
-    origins: ["https://agile-project-tartu-university.appspot.com", "wss://agile-project-tartu-university.appspot.com"],
-    check_origin: false
+    longpoll: false
 
 
   # Serve at "/" the static files from "priv/static" directory.
