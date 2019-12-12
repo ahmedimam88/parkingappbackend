@@ -25,6 +25,15 @@ defmodule ParkingappbackendWeb.PaymentControllerTest do
     user_id: 1
     }
 
+
+    @create_booking_valid2 %{
+      start_time: "some time",
+      end_time: String.slice(elem(Timex.format(Timex.shift(Timex.now("GMT-2"), minutes: 30),"{RFC3339}"),1), 0..18) <> "+02:00",
+      parking_id: 2,
+      calc_criteria: 1,
+      user_id: 2
+      }
+
     @create_payment_pending %{
       cardno: "some cardno",
       nameoncard: "some nameoncard",
@@ -185,9 +194,8 @@ defmodule ParkingappbackendWeb.PaymentControllerTest do
         assert json_response(conn, 200)["status"] == "COMPLETED"
       end
 
-      test "when payment amount and status ", %{conn: conn} do
-        user = Auth.get_user!(1)
-        payment = Billing.list_payments(user) |> hd
+      test "when payment amount and status in real time only", %{conn: conn} do
+        user = Auth.get_user!(2)
 
         {:ok, jwt, _claims} = Parkingappbackend.Guardian.encode_and_sign(user, %{}, ttl: {4, :hours}, token_type: "refresh")
         conn =
@@ -195,7 +203,13 @@ defmodule ParkingappbackendWeb.PaymentControllerTest do
           |> put_req_header("accept", "application/json")
           |> put_req_header("authorization", "Bearer #{jwt}")
 
-        conn = post(conn, Routes.payment_path(conn, :update_amount), %{ id: payment.id , amount: 1000, status: "COMPLETED" })
+        {:ok, %Booking{} = booking2} = Sales.create_booking(@create_booking_valid2)
+        payment_RT =  Map.put(@create_payment_pending, :user_id, 2)
+        payment_RT =  Map.put(payment_RT, :booking_id, booking2.id)
+        {:ok, _} = Billing.create_payment(payment_RT)
+        payment = Billing.list_payments(user) |> hd
+
+        conn = post(conn, Routes.payment_path(conn, :update_amountRT), %{ booking_id: payment.booking_id , amount: 1000, status: "COMPLETED" })
         assert json_response(conn, 200)["status"] == "COMPLETED"
         assert json_response(conn, 200)["amount"] == 1000.0
       end

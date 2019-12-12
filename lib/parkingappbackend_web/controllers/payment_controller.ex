@@ -86,9 +86,10 @@ defmodule ParkingappbackendWeb.PaymentController do
 
   end
 
-  def update_amount(conn,%{"id" => id , "amount" => amount, "status" => status}) do
+  def update_amountRT(conn,%{"booking_id" => booking_id , "amount" => amount, "status" => status}) do
     user = Auth.get_user!(Guardian.Plug.current_resource(conn).id)
-    payment = Billing.get_payment!(id)
+
+    payment = Billing.get_payment_booking_id_RT(booking_id)
 
     case payment.user_id == user.id do
       true ->

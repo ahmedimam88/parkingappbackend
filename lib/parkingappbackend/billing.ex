@@ -40,6 +40,12 @@ defmodule Parkingappbackend.Billing do
 
   def get_payment!(id), do: Repo.get!(Payment, id)
 
+  def get_payment_booking_id_RT (booking_id) do
+    query = from p in Payment, where: p.booking_id == ^booking_id
+    Repo.one(query)
+  end
+
+
   def create_payment(attrs \\ %{}) do
     %Payment{}
     |> Payment.changeset(attrs)
