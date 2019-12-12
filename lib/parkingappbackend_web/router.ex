@@ -33,6 +33,7 @@ defmodule ParkingappbackendWeb.Router do
     post "/bookings/new", BookingController, :create
     post "/bookings/cancel", BookingController, :cancel
     post "/bookings/update", BookingController, :update
+    post "/bookings/end", BookingController, :end_booking
     get "/payments", PaymentController, :index
     get "/payments/pending", PaymentController, :index_pending
     get "/payments/completed", PaymentController, :index_completed

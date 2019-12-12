@@ -1,11 +1,8 @@
 defmodule ParkingappbackendWeb.PaymentController do
   use ParkingappbackendWeb, :controller
 
-  import Ecto.Query, only: [from: 2]
-
   alias Parkingappbackend.Billing
   alias Parkingappbackend.Billing.Payment
-  alias Parkingappbackend.Sales.Booking
   alias Parkingappbackend.Sales
   alias Parkingappbackend.Auth
   alias Parkingappbackend.Guardian

@@ -1,7 +1,6 @@
 defmodule Parkingappbackend.Periodically do
   use GenServer
 
-  import Ecto.Query, only: [from: 2]
   alias Parkingappbackend.Sales
 
 

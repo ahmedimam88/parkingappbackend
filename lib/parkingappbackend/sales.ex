@@ -56,6 +56,12 @@ defmodule Parkingappbackend.Sales do
     |> Repo.update()
   end
 
+  def update_end_time(%Booking{} = booking, attrs) do
+    booking
+    |> Booking.update_endtime_changeset(attrs)
+    |> Repo.update()
+  end
+
   def delete_booking(%Booking{} = booking) do
     Repo.delete(booking)
   end

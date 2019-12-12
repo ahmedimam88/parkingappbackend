@@ -24,4 +24,10 @@ defmodule Parkingappbackend.Sales.Booking do
     |> cast(params, [:status])
     |> validate_required([:status])
   end
+
+  def update_endtime_changeset(struct, params \\ %{}) do
+    struct
+    |> cast(params, [:end_time])
+    |> validate_required([:end_time])
+  end
 end

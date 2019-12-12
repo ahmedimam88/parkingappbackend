@@ -80,7 +80,7 @@ defmodule ParkingappbackendWeb.BookingController do
 
   end
 
-  def cancel(conn, %{"id" => id}) do
+def cancel(conn, %{"id" => id}) do
     #user = Auth.get_user!(Guardian.Plug.current_resource(conn).id)
     booking = Sales.get_booking!(id)
     case booking.status do
@@ -100,4 +100,24 @@ defmodule ParkingappbackendWeb.BookingController do
   end
 
 end
+
+def end_booking(conn, %{"id" => id , "end_time" => end_time}) do
+  user = Auth.get_user!(Guardian.Plug.current_resource(conn).id)
+  booking = Sales.get_booking!(id)
+  case booking.user_id == user.id do
+    true ->
+  with {:ok, %Booking{} = booking} <- Sales.update_end_time(booking, %{end_time: end_time}) do
+        parking = Parkingappbackend.Space.get_parking!(booking.parking_id)
+        booking = Map.put(booking, :parking_name, parking.name)
+        render(conn, "show.json", booking: booking)
+   end
+
+   _ -> message = "You are not authorized to update this booking"
+   conn
+   |> put_view(ParkingappbackendWeb.ErrorView)
+   |> render("401.json", message: message)
+end
+end
+
+
 end

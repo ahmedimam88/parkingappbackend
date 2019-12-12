@@ -120,6 +120,23 @@ end
     end
  end
 
+ describe "End" do
+  test "End one booking" , %{conn: conn} do
+    book = Sales.list_bookings() |> hd
+    user = Auth.get_user!(book.user_id)
+
+    {:ok, jwt, _claims} = Parkingappbackend.Guardian.encode_and_sign(user, %{}, ttl: {4, :hours}, token_type: "refresh")
+    conn =
+      conn
+      |> put_req_header("accept", "application/json")
+      |> put_req_header("authorization", "Bearer #{jwt}")
+
+    conn = post(conn, Routes.booking_path(conn, :end_booking), %{id: book.id, end_time: "any End Time"})
+    assert "any End Time" == json_response(conn, 200)["end_time"]
+
+  end
+end
+
  describe "update booking" do
 
   test "when data is valid but unauthorized user", %{conn: conn} do
