@@ -185,7 +185,7 @@ defmodule ParkingappbackendWeb.PaymentControllerTest do
         assert json_response(conn, 200)["status"] == "COMPLETED"
       end
 
-      test "payment status is invalid" do
+      test "when payment amount and status ", %{conn: conn} do
         user = Auth.get_user!(1)
         payment = Billing.list_payments(user) |> hd
 
@@ -194,6 +194,21 @@ defmodule ParkingappbackendWeb.PaymentControllerTest do
           conn
           |> put_req_header("accept", "application/json")
           |> put_req_header("authorization", "Bearer #{jwt}")
+
+        conn = post(conn, Routes.payment_path(conn, :update_amount), %{ id: payment.id , amount: 1000, status: "COMPLETED" })
+        assert json_response(conn, 200)["status"] == "COMPLETED"
+        assert json_response(conn, 200)["amount"] == 1000.0
+      end
+
+      test "payment status is invalid" do
+        user = Auth.get_user!(1)
+        payment = Billing.list_payments(user) |> hd
+
+        {:ok, jwt, _claims} = Parkingappbackend.Guardian.encode_and_sign(user, %{}, ttl: {4, :hours}, token_type: "refresh")
+    conn =
+      conn
+      |> put_req_header("accept", "application/json")
+      |> put_req_header("authorization", "Bearer #{jwt}")
 
           conn = post(conn, Routes.payment_path(conn, :update_status), %{ id: payment.id , status: "WHATEVER" })
           assert json_response(conn, 422)["errors"] != %{}

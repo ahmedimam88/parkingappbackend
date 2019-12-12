@@ -35,4 +35,11 @@ defmodule Parkingappbackend.Billing.Payment do
     |> validate_required([:status])
     |> validate_inclusion(:status, ~w(PENDING COMPLETED))
   end
+
+  def amount_update_changeset(payments, attrs) do
+    payments
+    |> cast(attrs, [:amount, :status])
+    |> validate_required([:amount, :status])
+    |> validate_inclusion(:status, ~w(PENDING COMPLETED))
+  end
 end

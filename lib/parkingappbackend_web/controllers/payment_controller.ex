@@ -86,7 +86,27 @@ defmodule ParkingappbackendWeb.PaymentController do
 
   end
 
+  def update_amount(conn,%{"id" => id , "amount" => amount, "status" => status}) do
+    user = Auth.get_user!(Guardian.Plug.current_resource(conn).id)
+    payment = Billing.get_payment!(id)
 
+    case payment.user_id == user.id do
+      true ->
+        with {:ok, %Payment{} = payment} <- Billing.update_payment_amount(payment, %{amount: amount, status: status}) do
+          booking = Sales.get_booking!(payment.booking_id)
+          payment =  Map.put(payment, :start_time, booking.start_time)
+          payment =  Map.put(payment, :end_time, booking.end_time)
+          render(conn, "show.json", payment: payment)
+        end
+      _ -> message = "You are not authorized to update this payment"
+            conn
+            |> put_view(ParkingappbackendWeb.ErrorView)
+            |> render("401.json", message: message)
+
+    end
+
+
+  end
 
 
 end

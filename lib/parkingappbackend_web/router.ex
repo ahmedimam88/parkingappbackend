@@ -40,6 +40,7 @@ defmodule ParkingappbackendWeb.Router do
     post "/payments/create", PaymentController, :create
     post "/payments/update", PaymentController, :update
     post "/payments/updatestatus", PaymentController, :update_status
+    post "/payments/updateamount", PaymentController, :update_amount
   end
 
 end

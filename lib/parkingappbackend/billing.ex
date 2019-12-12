@@ -60,5 +60,11 @@ defmodule Parkingappbackend.Billing do
     |> Repo.update()
   end
 
+  def update_payment_amount(%Payment{} = payment, attrs) do
+    payment
+    |> Payment.amount_update_changeset(attrs)
+    |> Repo.update()
+  end
+
 
 end
