@@ -16,38 +16,76 @@ Feature:User Story1: User Registration
         When I press Register
         Then I should see "h5" with "Username: tanty" confirmation message in the Dashboard
 
+        Scenario: Register a user without success
+        Given I am on the sign_in page
+        When I press signup ?
+        Then I should be on the sign_up page
+        And I fill in fullname with "Octanty"
+        And I fill in username with "tanty"
+        And I fill in password with "parool"
+        And I fill in email with "tanty@gmail.com"
+        And I fill in age with "27"
+        And I fill in address with "Tartu"
+        When I press Register
+        Then I cannot redirect to any other page as Dashboard
+        #Then I should see "h5" with "User Already Exists" confirmation message 
+
 Feature:User Story2: User Login
 As a customer
 So that I go to login
 I want to sign in as a user
 
-  Scenario: Login with valid credentials
-    Given I am on the sign_in page
-    | username | password |	 
-    | ahmed    | parool   | 
-    And I fill in username with "ahmed"
-    And I fill in password with "parool"
-    When I press Sign in
-    Then I should see "h5" with "Username: ahmed" confirmation message in the Dashboard 
+    Scenario: Login with valid credentials
+        Given I am on the sign_in page
+        And I fill in username with "ahmed"
+        And I fill in password with "parool"
+        When I press Sign in
+        Then I should see "h5" with "Username: ahmed" confirmation message 
+
+    Scenario: Login with invalid credentials
+        Given I am on the sign_in page
+        And I fill in username with "ahmed"
+        And I fill in password with "parool1"
+        When I press Sign in
+        Then I should see "h4" with "Invalid Username or Password" confirmation message  
 
 
 Feature: User Story3: View parking space availability
 As a customer
 So that I can view information about parking space availability for a specific area
-I want to type the destination address & start time 
+I want to type the destination address, start time & end time
 
-    Scenario: Enter the destionation address & start time of parking
-        Given the following destionation address and start time
-        | location | start time | end time |
-        | Kaubamaja| 12:00      | 13:30    |
-    And I sign in
-    And I open the Parking Search Page 
-    And I enter the destination address & start time
-    When I press "Search" 
-    Then I should see a Map showing the parking locations nearby the destionation address
-    And I should choose one parking location and submit the request
-    And I should see the details of this particular parking slot such as Category, Price per hour and real-time
-    And I press confirm 
+    Scenario: Enter valid destionation address, start time and end time of parking
+        Given I am on the sign_in page
+        And I fill in username with "ahmed"
+        And I fill in password with "parool"
+        When I press Sign in
+        Then I should see "h5" with "Username: ahmed" confirmation message
+        And I am in the Dashboard
+        And I click on Parkings
+        And I click on Search
+        And I open the Search Page
+        And I enter the destination_address with "Raatuse 22, Tartu"
+        And I fill in start_time with "12/12/2019 5:50 PM"
+        And I fill in end_time with "12/12/2019 5:55 PM"
+        When I press Search
+        Then I should be on the same page SearchParking Page and can see the parking spaces in the map
+
+        Scenario: View parking spaces in an incorrect destination address
+        Given I am on the sign_in page
+        And I fill in username with "ahmed"
+        And I fill in password with "parool"
+        When I press Sign in
+        Then I should see "h5" with "Username: ahmed" confirmation message
+        And I am in the Dashboard
+        And I click on Parkings
+        And I click on Search
+        And I open the Search Page
+        And I enter the destination_address with "Annelinn, Tartu"
+        And I fill in start_time with "12/12/2019 5:50 PM"
+        And I fill in end_time with "12/12/2019 5:55 PM"
+        When I press Search
+        Then I should be on the same page SearchParking Page and no parking spaces appear on the map
 
 
 Feature: User Story4: Search desired parking slot 
@@ -95,21 +133,27 @@ I want to view the billing options
     And I see my parking, start time, end time, area name and the chosen billing option, status
     And I have the option to Extend or Cancel my booking
 
-Feature: User Story6: Upate User Account
+Feature: User Story6: Update User Account
 As a customer
 So that I can update my personal information
 I want to navigate to my Account
 
-    Scenario: Update User Account
-        Given the following options
-            | username | password	   | email        | dob        | address | fullname | usertype | isactive |         
-            | ahmed    | parool      | ahmed@email.com| 10/05/1988| Raatuse| Ahmed Samir| customer | N        |
-    And I sign in
-    And I have the option to navigate to my account
-    And I can see and update my personal information
-    When I press "Save"
-    Then I receive a confimration message and my account status changes to Updated Account
-    And I am redirected to the dashboard
+    Scenario: Update User Account Successfully
+        Given I am on the sign_in page
+        And I fill in username with "ahmed"
+        And I fill in password with "parool"
+        When I press Sign in
+        Then I should see "h5" with "Username: ahmed" confirmation message
+        And I am in the Dashboard
+        And I click on ahmed
+        And I click on Profile
+        And I should be on the Profile page
+        And I edit the fullname with "Ahmed I S"
+        And I edit the email with "ahmedimamsamir@email.com"
+        And I edit the age with "31"
+        And I edit the address with "Egypt, Cairo"
+        When I press Save
+        Then I should remain on the Profile page while the data is successfully updated in the database
 
 Feature: User Story7: Manually check remaining parking time
 As an customer
