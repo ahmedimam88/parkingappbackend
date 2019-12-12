@@ -24,6 +24,7 @@ defmodule ParkingappbackendWeb.Router do
     get "/users", UserController, :index
     post "/users/update" , UserController, :update
     get "/my_account", UserController, :show
+    delete "/users/delete", UserController, :delete
     post "/search", SearchController, :search_parkings
     get "/search/index", SearchController, :index
     post "/search/get_detail", SearchController, :get_detail
