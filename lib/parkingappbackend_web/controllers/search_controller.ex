@@ -17,10 +17,10 @@ defmodule ParkingappbackendWeb.SearchController do
   def search_parkings(conn, %{"destination" => destination, "starttime" => starttime, "endtime" => endtime}) do
 
 
-    bookings = Sales.list_bookings_active()
-    bookings = Enum.filter( bookings, fn(%{end_time: end_time}) -> Timex.diff(Timex.parse!(end_time , "{RFC3339}") ,Timex.now , :minutes) <= 2 end)
-    Parkingappbackend.Space.release_parkings(bookings)
-    Parkingappbackend.Sales.finish_bookings(bookings)
+    #bookings = Sales.list_bookings_active()
+    #bookings = Enum.filter( bookings, fn(%{end_time: end_time}) -> Timex.diff(Timex.parse!(end_time , "{RFC3339}") ,Timex.now , :minutes) <= 2 end)
+    #Parkingappbackend.Space.release_parkings(bookings)
+    #Parkingappbackend.Sales.finish_bookings(bookings)
 
     [lat, long] = Geolocation.find_location(destination)
     parkings = Parkingappbackend.Space.list_parkingsnear(lat, long)

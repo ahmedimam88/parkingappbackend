@@ -10,6 +10,7 @@ defmodule Parkingappbackend.Periodically do
 
   def init(state) do
     schedule_work() # Schedule work to be performed at some point
+
     {:ok, state}
   end
 
@@ -27,6 +28,6 @@ defmodule Parkingappbackend.Periodically do
   end
 
   defp schedule_work() do
-    Process.send_after(self(), :work, 60 * 1000) # In 2 hours
+    Process.send_after(self(), :work, 60 * 1000) #Every 1min
   end
 end
