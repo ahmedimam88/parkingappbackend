@@ -1,5 +1,6 @@
 defmodule ParkingappbackendWeb.PaymentControllerTest do
-  use ParkingappbackendWeb.ConnCase
+  use ParkingappbackendWeb.ConnCase, async: true
+
   alias Parkingappbackend.Billing.Payment
   alias Parkingappbackend.Billing
   alias Parkingappbackend.Sales

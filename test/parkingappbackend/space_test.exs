@@ -1,5 +1,5 @@
 defmodule Parkingappbackend.SpaceTest do
-  use Parkingappbackend.DataCase
+  use Parkingappbackend.DataCase, async: true
 
   alias Parkingappbackend.Space
 

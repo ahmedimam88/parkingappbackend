@@ -1,5 +1,5 @@
 defmodule Parkingappbackend.BillingTest do
-  use Parkingappbackend.DataCase
+  use Parkingappbackend.DataCase, async: true
 
   alias Parkingappbackend.Billing
   alias Parkingappbackend.Billing.Payment

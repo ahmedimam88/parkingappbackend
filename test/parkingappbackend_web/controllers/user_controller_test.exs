@@ -1,5 +1,5 @@
 defmodule ParkingappbackendWeb.UserControllerTest do
-  use ParkingappbackendWeb.ConnCase
+  use ParkingappbackendWeb.ConnCase, async: true
 
   alias Parkingappbackend.Auth
   alias Parkingappbackend.Auth.User

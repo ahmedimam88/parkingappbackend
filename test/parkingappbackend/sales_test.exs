@@ -1,5 +1,5 @@
 defmodule Parkingappbackend.SalesTest do
-  use Parkingappbackend.DataCase
+  use Parkingappbackend.DataCase, async: true
 
   alias Parkingappbackend.Sales
   alias Parkingappbackend.Sales.Booking

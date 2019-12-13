@@ -1,5 +1,5 @@
 defmodule ParkingappbackendWeb.SearchControllerTest do
-  use ParkingappbackendWeb.ConnCase
+  use ParkingappbackendWeb.ConnCase, async: true
 
   alias Parkingappbackend.Auth
   alias Parkingappbackend.Auth.User
@@ -37,9 +37,28 @@ defmodule ParkingappbackendWeb.SearchControllerTest do
   end
 
   describe "search" do
-    test "searh for a parking", %{conn: conn} do
+    test "1.1 1.2 search for a parking", %{conn: conn} do
       conn = post(conn, Routes.search_path(conn, :search_parkings), %{destination: "Raatuse 22, Tartu", starttime: "10:30", endtime: "12:00"})
-      assert length(json_response(conn, 200)) == 7
+      response = json_response(conn, 200)
+      assert length(response) == 7
+      parking = hd(response)
+      assert parking["name"] == "Raatuse 22 back 1"
+      assert parking["catname"] == "Zone A"
+      assert parking["ratehour"] == 2.0
+      assert parking["raterealtime"] == 0.16
+      assert parking["status"] == "ACTIVE"
+    end
+
+    test "1.1 1.2 search for a parking another location", %{conn: conn} do
+      conn = post(conn, Routes.search_path(conn, :search_parkings), %{destination: "surnuaia, Tartu", starttime: "10:30", endtime: "12:00"})
+      response = json_response(conn, 200)
+      assert length(response) == 7
+      parking = hd(response)
+      assert parking["name"] == "Maxima Narva 1"
+      assert parking["catname"] == "Zone B"
+      assert parking["ratehour"] == 1.0
+      assert parking["raterealtime"] == 0.08
+      assert parking["status"] == "ACTIVE"
 
     end
 
@@ -78,6 +97,21 @@ defmodule ParkingappbackendWeb.SearchControllerTest do
       assert [] = json_response(conn, 200)
     end
 
+  end
+
+  describe "get fees" do
+
+    test "1.4 1.5 when enddate is available", %{conn: conn} do
+      conn = post(conn, Routes.search_path(conn, :get_fees), %{parking_id: 1, starttime: "2019-12-04T21:13:47.704Z", endtime: "2019-12-04T21:30:47.704Z"})
+      assert json_response(conn, 200)["fees_hour"] == 2.0
+      assert json_response(conn, 200)["fees_real"] == 0.64
+    end
+
+    test "1.4 1.5 when enddate is not available", %{conn: conn} do
+      conn = post(conn, Routes.search_path(conn, :get_fees), %{parking_id: 1, starttime: "2019-12-04T21:13:47.704Z"})
+      assert json_response(conn, 200)["fees_hour"] == 0
+      assert json_response(conn, 200)["fees_real"] == 0
+    end
   end
 
 end

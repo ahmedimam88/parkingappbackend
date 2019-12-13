@@ -1,5 +1,6 @@
 defmodule ParkingappbackendWeb.BookingControllerTest do
-  use ParkingappbackendWeb.ConnCase
+  use ParkingappbackendWeb.ConnCase, async: true
+
   alias Parkingappbackend.Sales.Booking
   alias Parkingappbackend.Sales
   alias Parkingappbackend.Auth
@@ -97,13 +98,15 @@ defmodule ParkingappbackendWeb.BookingControllerTest do
   end
 
 describe "create" do
-  test "Create new booking with valid data", %{conn: conn} do
+  test "2.1 2.2 2.4 Create new booking with valid data", %{conn: conn} do
     conn = post(conn, Routes.booking_path(conn, :create), @create_booking_valid)
 
     assert %{ "parking_id" => 2 , "start_time" => "some time" , "end_time" => _, "status" => "OPEN"} = json_response(conn, 200)
+    parking = Parkingappbackend.Space.get_parking!(2)
+    assert parking.status == "BUSY"
   end
 
-  test "Create new booking with invalid data", %{conn: conn} do
+  test "2.1 2.2 Create new booking with invalid data", %{conn: conn} do
     conn = post(conn, Routes.booking_path(conn, :create), @create_booking_invalid)
     assert json_response(conn, 404)["errors"] != %{}
   end
@@ -146,7 +149,7 @@ end
     assert %{"detail" => "You are not authorized to update this booking"} = json_response(conn, 200)["errors"]
   end
 
-  test "when data is valid for authorized user", %{conn: conn} do
+  test "2.6 when data is valid for authorized user", %{conn: conn} do
     book = Sales.list_bookings() |> hd
     user = Auth.get_user!(book.user_id)
 

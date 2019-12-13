@@ -28,6 +28,7 @@ defmodule ParkingappbackendWeb.Router do
     post "/search", SearchController, :search_parkings
     get "/search/index", SearchController, :index
     post "/search/get_detail", SearchController, :get_detail
+    post "/search/get_fees", SearchController, :get_fees
     get "/bookings/all", BookingController, :index_all
     get "/bookings/10min" , BookingController, :index_10min
     get "/bookings/2min" , BookingController, :index_2min

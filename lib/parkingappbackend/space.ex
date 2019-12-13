@@ -131,6 +131,7 @@ defmodule Parkingappbackend.Space do
           select: {p.id , p.name, p.latitude , p.longitude, p.status , c.name, c.ratehour , c.raterealtime, c.freeminutes}
     Repo.one(query)
   end
+
   def release_parkings([h|t]) do
     parking = get_parking!(h.parking_id)
     update_parking_status(parking, %{status: "ACTIVE"})
