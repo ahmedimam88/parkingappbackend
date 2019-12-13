@@ -30,6 +30,6 @@ defmodule Parkingappbackend.Periodically2 do
   end
 
   defp schedule_work() do
-    Process.send_after(self(), :work, 2 * 1000) #Every 1min
+    Process.send_after(self(), :work, 30 * 1000) #Every 1min
   end
 end

@@ -13,7 +13,9 @@ defmodule Parkingappbackend.Application do
       Parkingappbackend.Repo,
       # Start the endpoint when the application starts
       ParkingappbackendWeb.Endpoint,
-      worker(Parkingappbackend.Periodically, [])
+      worker(Parkingappbackend.Periodically, []),
+      worker(Parkingappbackend.Periodically2, [])
+
       # Starts a worker by calling: Parkingappbackend.Worker.start_link(arg)
       # {Parkingappbackend.Worker, arg},
     ]
