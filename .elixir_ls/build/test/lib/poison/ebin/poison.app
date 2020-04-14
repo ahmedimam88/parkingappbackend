@@ -21,4 +21,4 @@
                         'Elixir.Poison.Encoder.Time','Elixir.Poison.Parser',
                         'Elixir.Poison.Pretty','Elixir.Poison.SyntaxError']},
               {registered,[]},
-              {vsn,"2.2.0"}]}.
+              {vsn,"3.1.0"}]}.
